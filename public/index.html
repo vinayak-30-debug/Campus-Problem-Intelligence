@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPI 360 - Campus Problem Intelligence | Campusathon 2026</title>
+  <meta name="description" content="Autonomous campus problem clustering, multi-factor prioritization, department routing, and resolution tracking powered by AI semantic embeddings.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Navigation Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon">CPI</div>
+        <div class="brand-text">
+          <h1>CPI 360</h1>
+          <span class="brand-badge">Campusathon 2026</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-link active" data-view="dashboard" onclick="App.navigateTo('dashboard')">
+          <span class="nav-icon">📊</span>
+          <span>Executive Dashboard</span>
+        </a>
+
+        <a class="nav-link" data-view="submit" onclick="App.navigateTo('submit')">
+          <span class="nav-icon">📝</span>
+          <span>Report & Live Demo</span>
+        </a>
+
+        <a class="nav-link" data-view="clusters" onclick="App.navigateTo('clusters')">
+          <span class="nav-icon">🔍</span>
+          <span>Recurring Issues</span>
+          <span class="nav-badge" id="sidebar-clusters-badge">--</span>
+        </a>
+
+        <a class="nav-link" data-view="department" onclick="App.navigateTo('department')">
+          <span class="nav-icon">🏢</span>
+          <span>Department SLA</span>
+        </a>
+
+        <a class="nav-link" data-view="benchmark" onclick="App.navigateTo('benchmark')">
+          <span class="nav-icon">📈</span>
+          <span>Accuracy Benchmark</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="ai-status-card">
+          <div class="ai-status-indicator">
+            <span class="pulse-dot"></span>
+            <span>AI Cluster Engine Active</span>
+          </div>
+          <div class="ai-model-tag">all-MiniLM-L6-v2 &bull; 384d</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <!-- Sticky Topbar Header -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <h2 class="page-title" id="current-page-title">Executive Problem Intelligence Dashboard</h2>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Judge Mode Toggle -->
+          <div class="judge-mode-toggle" id="topbar-judge-toggle" onclick="App.toggleJudgeMode()" title="Toggle between Judge Production View and Dev Ground-Truth View">
+            <div class="toggle-switch"></div>
+            <span class="judge-mode-label">Dev Mode (Testing)</span>
+          </div>
+
+          <!-- Reset Seed DB Button -->
+          <button class="btn btn-reset" onclick="App.handleResetDatabase()" title="Reset back to virgin 56 complaints seed state">
+            <span>🔄</span> Reset Seed DB
+          </button>
+
+          <!-- Export CSV -->
+          <a class="btn btn-secondary" href="/api/export" target="_blank" title="Export current clustered complaints as CSV">
+            <span>📥</span> Export CSV
+          </a>
+        </div>
+      </header>
+
+      <!-- Dynamic View Container -->
+      <main class="page-content" id="view-container">
+        <!-- Rendered by View Scripts -->
+      </main>
+    </div>
+  </div>
+
+  <!-- Real-Time Toast Notifications -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Frontend Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/charts.js"></script>
+  <script src="/js/views/dashboard.js"></script>
+  <script src="/js/views/submit.js"></script>
+  <script src="/js/views/clusters.js"></script>
+  <script src="/js/views/department.js"></script>
+  <script src="/js/views/benchmark.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

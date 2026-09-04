@@ -1,0 +1,57 @@
+report_id,text,category,department,location,severity,status,timestamp,reported_by,true_cluster_id
+RPT0027,Internal marks for Data Structures were not updated on the portal even after 3 weeks.,Academics,Academic Office,Department of Computer Science,Medium,In Progress,2026-08-05 18:48,student1009@college.edu,8
+RPT0012,"The fan in B-204 on second floor is dangerously loose, students are worried.",Infrastructure,Maintenance,"Academic Block B, 2nd Floor",High,In Progress,2026-08-21 18:10,student5374@college.edu,3
+RPT0013,"Classroom B204 fan makes grinding noise and shakes, safety concern for students.",Infrastructure,Maintenance,"Academic Block B, 2nd Floor",High,In Progress,2026-08-23 09:38,student5010@college.edu,3
+RPT0004,"Central library network keeps timing out, cannot download study material.",Wi-Fi / Network,IT Services,Central Library,Medium,In Progress,2026-08-17 07:35,student7873@college.edu,1
+RPT0015,Corridor lights on ground floor of Block A have been broken for two weeks.,Infrastructure,Maintenance,"Academic Block A, Ground Floor",Medium,Open,2026-08-22 17:53,student4752@college.edu,4
+RPT0053,Fee payment gateway on the portal fails with a timeout error.,Academics,Accounts Office,Online Portal,High,Resolved,2026-08-22 17:59,student4346@college.edu,0
+RPT0046,Thursday schedule for Mechanical Engineering 3rd year has a timing conflict between lab and lecture.,Academics,Academic Office,Department of Mechanical Engineering,Low,Open,2026-08-13 15:59,student5673@college.edu,14
+RPT0003,"Unable to stay connected to Wi-Fi in the library, it drops every few minutes.",Wi-Fi / Network,IT Services,Central Library,High,In Progress,2026-08-19 20:02,student4811@college.edu,1
+RPT0006,"Internet in the library is unusable in the evening, keeps disconnecting.",Wi-Fi / Network,IT Services,Central Library,Medium,In Progress,2026-08-23 20:21,student6514@college.edu,1
+RPT0054,Noise from ongoing construction disturbs lectures in Block D during the day.,Infrastructure,Maintenance,Academic Block D,Medium,Resolved,2026-08-22 17:15,student7484@college.edu,0
+RPT0039,Multiple gym equipment including treadmills are non-functional for weeks.,Sports Facilities,Sports Department,Gymnasium,Medium,Open,2026-08-22 20:22,student1887@college.edu,11
+RPT0044,"Parking lot lights are not working, very dark after evening.",Infrastructure,Maintenance,Parking Area,Low,Open,2026-08-03 14:10,student4502@college.edu,13
+RPT0022,Hostel Block A third floor bathrooms are dirty and cleaning staff rarely visit.,Hygiene,Housekeeping,"Girls Hostel Block A, Floor 3",High,In Progress,2026-08-13 19:38,student5119@college.edu,6
+RPT0031,"Exam hall ticket download link on the portal is broken, shows error 404.",Academics,Examination Cell,Online Portal,High,In Progress,2026-08-05 22:35,student7932@college.edu,9
+RPT0030,"Portal shows no internal marks for Data Structures course, students are confused.",Academics,Academic Office,Department of Computer Science,High,In Progress,2026-08-24 22:52,student3060@college.edu,8
+RPT0002,"Library internet is extremely unstable, disconnects constantly during study hours.",Wi-Fi / Network,IT Services,Central Library,Medium,In Progress,2026-08-05 10:43,student2424@college.edu,1
+RPT0026,"Canteen seating area is unhygienic, tables sticky and not cleaned properly.",Hygiene,Housekeeping,Canteen,Medium,In Progress,2026-08-28 16:53,student4258@college.edu,7
+RPT0048,Classroom Block C trash cans are full and overflowing most days.,Hygiene,Housekeeping,Classroom Block C,Low,Open,2026-08-19 08:47,student8811@college.edu,15
+RPT0041,"Route 4 bus timing is very unreliable, always late causing students to miss classes.",Transport,Transport Office,Route 4 - City Bus,Medium,In Progress,2026-08-08 13:12,student7912@college.edu,12
+RPT0028,Data Structures internal assessment marks still missing from student portal.,Academics,Academic Office,Department of Computer Science,High,Resolved,2026-08-20 17:31,student6038@college.edu,8
+RPT0021,"Third floor girls hostel washrooms have not been cleaned in days, smells bad.",Hygiene,Housekeeping,"Girls Hostel Block A, Floor 3",High,In Progress,2026-08-21 12:50,student2040@college.edu,6
+RPT0025,"Tables in the canteen are dirty most of the time, no one cleans between meals.",Hygiene,Housekeeping,Canteen,Medium,In Progress,2026-08-01 15:32,student2743@college.edu,7
+RPT0045,Timetable for Mechanical 3rd year has clashing lab and lecture slots on Thursdays.,Academics,Academic Office,Department of Mechanical Engineering,Medium,Open,2026-08-28 19:57,student1035@college.edu,14
+RPT0050,Stray dogs near the main gate have become aggressive towards students.,Safety,Security Office,Main Gate,High,In Progress,2026-08-28 12:04,student2113@college.edu,0
+RPT0032,"Unable to download admit card, portal link for hall ticket returns an error.",Academics,Examination Cell,Online Portal,High,In Progress,2026-08-31 13:59,student6107@college.edu,9
+RPT0037,Two treadmills in the gym have been out of order for over a month.,Sports Facilities,Sports Department,Gymnasium,Medium,In Progress,2026-08-09 22:13,student8744@college.edu,11
+RPT0010,"Ceiling fan in Room B-204 is making loud noise and wobbling, feels unsafe.",Infrastructure,Maintenance,"Academic Block B, 2nd Floor",High,Resolved,2026-08-23 09:02,student2307@college.edu,3
+RPT0043,"Student parking area has no proper lighting at night, feels unsafe.",Infrastructure,Maintenance,Parking Area,Low,In Progress,2026-08-26 10:03,student1241@college.edu,13
+RPT0049,The college app crashes every time I try to view my attendance percentage.,Academics,Academic Office,Mobile App,Medium,In Progress,2026-08-17 12:03,student2312@college.edu,0
+RPT0018,Some chairs at the back of the auditorium are damaged and unstable.,Infrastructure,Maintenance,Main Auditorium,Low,In Progress,2026-08-05 15:08,student9830@college.edu,5
+RPT0047,Dustbins in Block C classrooms are overflowing and not emptied daily.,Hygiene,Housekeeping,Classroom Block C,Low,In Progress,2026-08-14 22:09,student1958@college.edu,15
+RPT0038,Gym treadmills are broken and no repair has happened despite complaints.,Sports Facilities,Sports Department,Gymnasium,Medium,Open,2026-08-08 22:51,student2588@college.edu,11
+RPT0008,"Hostel Block C has zero internet connectivity in rooms, only common room gets signal.",Wi-Fi / Network,IT Services,Boys Hostel Block C,Low,Open,2026-08-26 08:46,student7201@college.edu,2
+RPT0052,Drinking water cooler on the 4th floor of Block A is not working.,Infrastructure,Maintenance,"Academic Block A, 4th Floor",Low,Open,2026-08-19 08:39,student7868@college.edu,0
+RPT0051,Elevator in the admin building has been out of service for a week.,Infrastructure,Maintenance,Admin Building,Medium,Open,2026-08-22 14:25,student5033@college.edu,0
+RPT0007,"No Wi-Fi access in Hostel Block C rooms after 10 PM, only works in common area.",Wi-Fi / Network,IT Services,Boys Hostel Block C,Medium,Resolved,2026-08-04 09:24,student5333@college.edu,2
+RPT0042,"Bus for route 4 rarely arrives on schedule, delays almost every day.",Transport,Transport Office,Route 4 - City Bus,Medium,Open,2026-08-06 15:29,student8260@college.edu,12
+RPT0036,Basketball court surface is damaged and needs resurfacing.,Sports Facilities,Sports Department,Basketball Court,Low,In Progress,2026-08-03 08:55,student4899@college.edu,10
+RPT0001,"Wi-Fi in the central library keeps disconnecting every 10 minutes, very hard to attend online classes.",Wi-Fi / Network,IT Services,Central Library,Medium,In Progress,2026-08-21 10:01,student4657@college.edu,1
+RPT0034,"Basketball court floor has cracks and is uneven in some areas, risk of injury.",Sports Facilities,Sports Department,Basketball Court,Low,In Progress,2026-08-08 14:04,student4770@college.edu,10
+RPT0040,College bus on Route 4 is regularly 20-30 minutes late in the morning.,Transport,Transport Office,Route 4 - City Bus,Medium,Resolved,2026-08-22 10:03,student2790@college.edu,12
+RPT0020,"Washrooms on 3rd floor of Girls Hostel Block A are not cleaned regularly, very unhygienic.",Hygiene,Housekeeping,"Girls Hostel Block A, Floor 3",High,Open,2026-08-05 22:05,student3504@college.edu,6
+RPT0055,"Projector in seminar hall 2 has a flickering display, hard to read slides.",Infrastructure,Maintenance,Seminar Hall 2,Low,Resolved,2026-08-05 16:29,student2188@college.edu,0
+RPT0029,"CSE department has not uploaded internal marks for DS subject, delay of 3 weeks.",Academics,Academic Office,Department of Computer Science,Medium,Open,2026-08-08 08:15,student2403@college.edu,8
+RPT0011,"Fan in classroom B204 is shaking badly and could fall, needs urgent repair.",Infrastructure,Maintenance,"Academic Block B, 2nd Floor",High,Resolved,2026-08-28 14:55,student8428@college.edu,3
+RPT0019,Broken seats in the rear rows of the main auditorium need replacement.,Infrastructure,Maintenance,Main Auditorium,Low,Resolved,2026-08-09 20:57,student4593@college.edu,5
+RPT0024,"Canteen tables are not wiped between customers, food residue left on tables.",Hygiene,Housekeeping,Canteen,Medium,In Progress,2026-08-25 17:07,student8433@college.edu,7
+RPT0016,"Ground floor Block A hallway is poorly lit, multiple lights are fused.",Infrastructure,Maintenance,"Academic Block A, Ground Floor",Medium,Resolved,2026-08-27 08:51,student2084@college.edu,4
+RPT0056,No proper ramp access for wheelchair users at the library entrance.,Accessibility,Maintenance,Central Library,High,In Progress,2026-08-01 21:39,student2638@college.edu,0
+RPT0023,Washroom cleanliness on floor 3 of girls hostel A is extremely poor.,Hygiene,Housekeeping,"Girls Hostel Block A, Floor 3",High,In Progress,2026-08-18 07:43,student5371@college.edu,6
+RPT0009,"Wi-Fi does not reach individual rooms in Block C hostel, only lobby has signal.",Wi-Fi / Network,IT Services,Boys Hostel Block C,Low,Resolved,2026-08-03 16:53,student4150@college.edu,2
+RPT0017,Auditorium seats in the last 3 rows are broken and cannot be used.,Infrastructure,Maintenance,Main Auditorium,Low,Open,2026-08-07 17:13,student8517@college.edu,5
+RPT0033,"Hall ticket page on exam portal is not loading, need it before exam tomorrow.",Academics,Examination Cell,Online Portal,High,Open,2026-08-13 18:28,student2982@college.edu,9
+RPT0014,"Several tube lights are not working in Block A ground floor corridor, very dark at night.",Infrastructure,Maintenance,"Academic Block A, Ground Floor",Medium,In Progress,2026-08-06 21:24,student4598@college.edu,4
+RPT0035,"Cracked flooring on the basketball court, students have tripped before.",Sports Facilities,Sports Department,Basketball Court,Medium,Open,2026-08-19 14:00,student4750@college.edu,10
+RPT0005,"Wifi signal in library reading hall is too weak, connection drops frequently.",Wi-Fi / Network,IT Services,Central Library,Medium,Open,2026-08-08 21:37,student3615@college.edu,1
