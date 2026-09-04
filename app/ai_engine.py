@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from typing import List, Dict, Any, Tuple, Optional
 from sklearn.metrics.pairwise import cosine_similarity, cosine_distances
@@ -30,6 +31,14 @@ class AIEngine:
         self._load_model()
 
     def _load_model(self):
+        use_lightweight = os.environ.get("USE_LIGHTWEIGHT_EMBEDDINGS", "").strip().lower() in ("true", "1", "yes")
+        if use_lightweight:
+            print("[AI Engine] USE_LIGHTWEIGHT_EMBEDDINGS is enabled: Skipping sentence-transformers/torch to prevent OOM on Render 512MB RAM instance.", flush=True)
+            from sklearn.feature_extraction.text import TfidfVectorizer
+            self.tfidf = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
+            self.is_transformer = False
+            return
+
         try:
             from sentence_transformers import SentenceTransformer
             print("[AI Engine] Loading SentenceTransformer 'all-MiniLM-L6-v2'...", flush=True)
@@ -52,7 +61,7 @@ class AIEngine:
         self,
         texts: List[str],
         categories: List[str] = None,
-        distance_threshold: float = 0.50
+        distance_threshold: Optional[float] = None
     ) -> List[int]:
         """
         Perform hierarchical agglomerative clustering on report texts.
@@ -61,6 +70,12 @@ class AIEngine:
         if len(texts) <= 1:
             return [0] * len(texts)
             
+        # Calibrate distance threshold based on vector representation (dense vs sparse TF-IDF)
+        if distance_threshold is None or (not self.is_transformer and distance_threshold <= 0.55):
+            effective_dist = 0.88 if not self.is_transformer else (distance_threshold or 0.48)
+        else:
+            effective_dist = distance_threshold
+
         embeddings = self.encode(texts)
         dist_matrix = cosine_distances(embeddings)
         
@@ -74,7 +89,7 @@ class AIEngine:
                         
         clustering = AgglomerativeClustering(
             n_clusters=None,
-            distance_threshold=distance_threshold,
+            distance_threshold=effective_dist,
             metric='precomputed',
             linkage='average'
         )
@@ -88,7 +103,7 @@ class AIEngine:
         existing_texts: List[str],
         existing_categories: List[str],
         existing_cluster_ids: List[int],
-        threshold: float = 0.58
+        threshold: Optional[float] = None
     ) -> Tuple[Optional[int], float, Optional[int], Optional[str]]:
         """
         Online near-duplicate matching for incoming student complaints.
@@ -120,7 +135,15 @@ class AIEngine:
         
         effective_sim = max(raw_sim, adj_sim)
         
-        if effective_sim >= threshold or raw_sim >= 0.62:
+        # Adaptive thresholds: Dense neural embeddings vs sparse TF-IDF vectors
+        if threshold is None or (not self.is_transformer and threshold >= 0.50):
+            match_thresh = 0.18 if not self.is_transformer else 0.58
+        else:
+            match_thresh = threshold
+
+        raw_thresh = 0.20 if not self.is_transformer else 0.62
+
+        if effective_sim >= match_thresh or raw_sim >= raw_thresh:
             matched_cluster_id = existing_cluster_ids[best_idx]
             matched_text = existing_texts[best_idx]
             return matched_cluster_id, raw_sim, best_idx, matched_text
@@ -147,7 +170,7 @@ class AIEngine:
         # Extractive heuristic for new issues
         if texts:
             shortest = min(texts, key=len)
-            clean = re.sub(r'^[A-Z0-9_-]+:?\s*', '', shortest)
+            clean = re.sub(r'^[A-Z0-9_-]+:\s*', '', shortest)
             clean = clean.strip()
             if len(clean) > 65:
                 clean = clean[:62] + "..."

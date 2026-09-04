@@ -41,7 +41,8 @@ def health_check():
     return {
         "status": "healthy",
         "service": "Campus Problem Intelligence",
-        "ai_model": "all-MiniLM-L6-v2",
+        "ai_model": "all-MiniLM-L6-v2" if db_manager.ai_engine.is_transformer else "TF-IDF (Lightweight Embeddings)",
+        "lightweight_mode": not db_manager.ai_engine.is_transformer,
         "total_reports": len(db_manager.reports),
         "total_clusters": len(db_manager.clusters)
     }

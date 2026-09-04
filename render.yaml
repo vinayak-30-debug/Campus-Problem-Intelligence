@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: campus-problem-intelligence
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run_server.py
+    envVars:
+      - key: USE_LIGHTWEIGHT_EMBEDDINGS
+        value: "true"
+      - key: PYTHON_VERSION
+        value: "3.11.9"

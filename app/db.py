@@ -2,6 +2,7 @@ import csv
 import os
 import copy
 from datetime import datetime
+from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 from app.models import ComplaintReport, ClusterGroup, IntelligenceResponse, BenchmarkReport
 from app.ai_engine import AIEngine
@@ -9,11 +10,19 @@ from app.priority_engine import calculate_priority
 from app.router_engine import infer_category_and_department
 from app.benchmark import run_clustering_benchmark
 
-DATASET_CSV_PATH = "campus_complaints_dataset.csv"
+# Resolve dataset path relative to repository root regardless of current working directory
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATASET_CSV_PATH = str(PROJECT_ROOT / "campus_complaints_dataset.csv")
 
 class DatabaseManager:
-    def __init__(self, csv_path: str = DATASET_CSV_PATH):
-        self.csv_path = csv_path
+    def __init__(self, csv_path: Optional[str] = None):
+        if csv_path and os.path.exists(csv_path):
+            self.csv_path = csv_path
+        elif os.path.exists(DATASET_CSV_PATH):
+            self.csv_path = DATASET_CSV_PATH
+        else:
+            self.csv_path = csv_path or "campus_complaints_dataset.csv"
+
         self.ai_engine = AIEngine()
         self.reports: List[Dict[str, Any]] = []
         self.clusters: Dict[int, Dict[str, Any]] = {}
@@ -27,7 +36,10 @@ class DatabaseManager:
         """
         print(f"[DB] Loading seed dataset from {self.csv_path}...", flush=True)
         if not os.path.exists(self.csv_path):
-            raise FileNotFoundError(f"Cannot find dataset file: {self.csv_path}")
+            if os.path.exists(DATASET_CSV_PATH):
+                self.csv_path = DATASET_CSV_PATH
+            else:
+                raise FileNotFoundError(f"Cannot find dataset file: {self.csv_path} (checked {DATASET_CSV_PATH})")
 
         raw_rows = []
         with open(self.csv_path, mode='r', encoding='utf-8') as f:

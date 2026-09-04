@@ -263,3 +263,22 @@ sequenceDiagram
 4. **Vanilla Frontend vs. Heavy Frameworks (React/Angular)**:
    - *Decision*: Zero-build Vanilla JS SPA with custom CSS tokens.
    - *Rationale*: Eliminates `npm install` build friction, achieves instantaneous load times, and allows direct inspection of clean modular views.
+
+---
+
+## 7. Automated Verification & Unit Testing
+
+To ensure deterministic reliability and zero regression across core algorithmic decision pathways, CPI 360 includes automated unit test suites (`tests/`) targeting the priority and router engines with **100% statement coverage**:
+
+| Test Suite | File | Tests | Coverage Scope |
+| :--- | :--- | :--- | :--- |
+| **Priority Engine Suite** | [`tests/test_priority_engine.py`](file:///d:/Campus%20Hack/Campus-Problem-Intelligence/tests/test_priority_engine.py) | 23 | Base severity weights (High/Med/Low), logarithmic frequency surge ($15 \times \log_2(\text{count})$), surge cap (45 pts), hazard keyword detection (+5/word up to +15), upper cap (100 pts), and tier classification overrides. |
+| **Router Engine Suite** | [`tests/test_router_engine.py`](file:///d:/Campus%20Hack/Campus-Problem-Intelligence/tests/test_router_engine.py) | 19 | Keyword taxonomy matching across 8 categories, tie-breaking scoring, department resolution, academic sub-routing (Accounts, Exam Cell, Academic Office), and regex word boundary protection. |
+
+Run tests at any time via:
+```bash
+pytest -v --cov=app.priority_engine --cov=app.router_engine
+# or
+python -m unittest discover -s tests -v
+```
+

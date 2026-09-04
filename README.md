@@ -99,11 +99,23 @@ Campus Hack/
 │   │       └── benchmark.js             # Ground-truth accuracy validation suite
 │   └── index.html                       # Main HTML application shell
 │
+├── tests/                               # Automated Test Suite (100% Engine Coverage)
+│   ├── __init__.py
+│   ├── test_priority_engine.py          # 23 tests: base severity, logarithmic surge, hazard boosts & tiers
+│   └── test_router_engine.py            # 19 tests: taxonomy inference, academic sub-routes, word boundaries
+│
 ├── campus_complaints_dataset.csv        # Seed dataset (56 complaints across 15 ground-truth clusters)
 ├── run_server.py                        # Uvicorn server launcher with Windows optimizations
 ├── architecture.md                      # Detailed technical architecture document
 └── README.md                            # Comprehensive project overview and documentation
 ```
+
+---
+
+## 🌐 Live Demo
+
+- **Live Application URL:** `https://campus-problem-intelligence.onrender.com` *(Placeholder: replace with your actual Render service URL)*
+- **Instance Cold-Start Note:** Hosted on Render's free tier; if the service has spun down due to inactivity, please allow ~30–60 seconds for the instance to wake up on the first request.
 
 ---
 
@@ -115,10 +127,10 @@ Campus Hack/
 
 ### 2. Install Required Packages
 ```bash
-pip install fastapi uvicorn sentence-transformers scikit-learn numpy pydantic
+pip install -r requirements.txt
 ```
 
-> **Note:** If `sentence-transformers` is not present, CPI 360 includes an automated fallback to Scikit-Learn TF-IDF vectorization so the application continues to run seamlessly.
+> **Cloud & Memory Optimization:** By default, `requirements.txt` installs lightweight dependencies (<80MB RAM footprint). On environments with memory limits (e.g., Render free tier 512MB), set `USE_LIGHTWEIGHT_EMBEDDINGS=true` to use optimized TF-IDF vectorization without downloading heavy PyTorch models.
 
 ### 3. Launch the Application
 ```bash
@@ -131,6 +143,16 @@ http://127.0.0.1:8000
 ```
 
 Open your browser and navigate to `http://127.0.0.1:8000` to access the CPI 360 dashboard.
+
+### 4. Run Automated Unit Tests (Priority & Router Engines)
+Execute the unit test suite covering 100% of statements in both core decision engines:
+```bash
+# Run using pytest (with optional coverage report)
+pytest -v --cov=app.priority_engine --cov=app.router_engine
+
+# Or run using Python's standard built-in unittest runner:
+python -m unittest discover -s tests -v
+```
 
 ---
 
