@@ -28,7 +28,7 @@
 
         <a class="nav-link" data-view="submit" onclick="App.navigateTo('submit')">
           <span class="nav-icon">📝</span>
-          <span>Report & Live Demo</span>
+          <span>Report a Problem</span>
         </a>
 
         <a class="nav-link" data-view="clusters" onclick="App.navigateTo('clusters')">
@@ -54,7 +54,7 @@
             <span class="pulse-dot"></span>
             <span>AI Cluster Engine Active</span>
           </div>
-          <div class="ai-model-tag">all-MiniLM-L6-v2 &bull; 384d</div>
+          <div class="ai-model-tag" id="sidebar-ai-model">Connecting...</div>
         </div>
       </div>
     </aside>
@@ -68,10 +68,10 @@
         </div>
 
         <div class="topbar-right">
-          <!-- Judge Mode Toggle -->
-          <div class="judge-mode-toggle" id="topbar-judge-toggle" onclick="App.toggleJudgeMode()" title="Toggle between Judge Production View and Dev Ground-Truth View">
+          <!-- Developer / Judge Mode Toggle -->
+          <div class="judge-mode-toggle" id="topbar-judge-toggle" onclick="App.toggleJudgeMode()" title="Toggle Developer / Judge Mode">
             <div class="toggle-switch"></div>
-            <span class="judge-mode-label">Dev Mode (Testing)</span>
+            <span class="judge-mode-label">Dev Mode: OFF</span>
           </div>
 
           <!-- Reset Seed DB Button -->

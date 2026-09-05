@@ -849,16 +849,24 @@ body {
   transform: translateY(-1px);
 }
 
+.student-form-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .form-label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
+  color: #f1f5f9;
+  margin-bottom: 8px;
 }
 
 .form-input, .form-textarea {
@@ -866,9 +874,9 @@ body {
   background: rgba(18, 26, 42, 0.7);
   border: 1px solid var(--border-subtle);
   color: #fff;
-  padding: 12px 16px;
+  padding: 13px 16px;
   border-radius: var(--radius-md);
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-family: inherit;
   transition: var(--transition-fast);
   outline: none;
@@ -877,17 +885,119 @@ body {
 .form-input:focus, .form-textarea:focus {
   border-color: var(--accent-indigo);
   box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+  background: rgba(22, 32, 52, 0.85);
 }
 
 .form-textarea {
   resize: vertical;
-  min-height: 110px;
+  min-height: 140px;
+  line-height: 1.6;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .student-form-card {
+    padding: 20px 16px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* Student Confirmation Experience */
+.student-confirmation-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.confirmation-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: var(--radius-md);
+}
+
+.confirmation-banner-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.confirmation-banner h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.confirmation-details-card {
+  background: rgba(18, 26, 42, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+.confirmation-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+
+@media (max-width: 540px) {
+  .confirmation-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.confirmation-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.confirmation-detail-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.confirmation-detail-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.confirmation-grouping-box {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+}
+
+.confirmation-grouping-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 6px;
+}
+
+.confirmation-grouping-text {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
 /* =========================================================

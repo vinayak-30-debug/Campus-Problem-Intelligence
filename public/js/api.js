@@ -3,6 +3,12 @@
  */
 
 const API = {
+  async getHealth() {
+    const res = await fetch('/api/health');
+    if (!res.ok) throw new Error('Failed to load system health');
+    return await res.json();
+  },
+
   async getAnalytics() {
     const res = await fetch('/api/analytics');
     if (!res.ok) throw new Error('Failed to load analytics');

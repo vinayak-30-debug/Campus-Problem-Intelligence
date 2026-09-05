@@ -4,7 +4,15 @@
 
 const App = {
   currentView: 'dashboard',
-  isJudgeMode: false,
+  isDevMode: false,
+  healthData: null,
+
+  get isJudgeMode() {
+    return !this.isDevMode;
+  },
+  set isJudgeMode(val) {
+    this.isDevMode = !val;
+  },
 
   views: {
     dashboard: DashboardView,
@@ -17,10 +25,12 @@ const App = {
   init() {
     console.log('[CPI 360] Initializing application...');
 
-    // Load saved Judge Mode preference
-    const savedMode = localStorage.getItem('cpi_judge_mode');
+    // Load saved Dev Mode preference (defaults to false for normal student experience)
+    const savedMode = localStorage.getItem('cpi_dev_mode');
     if (savedMode !== null) {
-      this.isJudgeMode = savedMode === 'true';
+      this.isDevMode = savedMode === 'true';
+    } else {
+      this.isDevMode = false;
     }
     this.updateJudgeModeUI();
 
@@ -32,8 +42,9 @@ const App = {
       this.navigateTo('dashboard');
     }
 
-    // Refresh live counts in sidebar
+    // Refresh live counts & health status in sidebar
     this.updateSidebarCounts();
+    this.updateHealthStatus();
 
     // Handle browser back/forward
     window.addEventListener('hashchange', () => {
@@ -61,7 +72,7 @@ const App = {
     // Update topbar title
     const titles = {
       dashboard: 'Executive Problem Intelligence Dashboard',
-      submit: 'Report an Issue & Live AI Grouping Demo',
+      submit: 'Report a Campus Problem',
       clusters: 'Recurring Issues Matrix & Deduplication',
       department: 'Department Workflows & SLA Resolution',
       benchmark: 'AI Clustering Accuracy & Ground Truth Validation'
@@ -79,14 +90,14 @@ const App = {
   },
 
   toggleJudgeMode() {
-    this.isJudgeMode = !this.isJudgeMode;
-    localStorage.setItem('cpi_judge_mode', this.isJudgeMode);
+    this.isDevMode = !this.isDevMode;
+    localStorage.setItem('cpi_dev_mode', this.isDevMode);
     this.updateJudgeModeUI();
 
-    if (this.isJudgeMode) {
-      this.showToast('Judge Mode ON: Ground-truth test columns hidden.', 'info');
+    if (this.isDevMode) {
+      this.showToast('Dev Mode ON: Hackathon presets & AI diagnostics enabled.', 'info');
     } else {
-      this.showToast('Dev Mode ON: Ground-truth validation visible.', 'info');
+      this.showToast('Dev Mode OFF: Student campus reporting mode active.', 'info');
     }
 
     // Re-render current view if relevant
@@ -99,12 +110,14 @@ const App = {
   updateJudgeModeUI() {
     const toggleBtn = document.getElementById('topbar-judge-toggle');
     if (toggleBtn) {
-      if (this.isJudgeMode) {
+      if (this.isDevMode) {
         toggleBtn.classList.add('active');
-        toggleBtn.querySelector('.judge-mode-label').textContent = 'Judge Mode (Active)';
+        const label = toggleBtn.querySelector('.judge-mode-label');
+        if (label) label.textContent = 'Dev Mode: ON';
       } else {
         toggleBtn.classList.remove('active');
-        toggleBtn.querySelector('.judge-mode-label').textContent = 'Dev Mode (Testing)';
+        const label = toggleBtn.querySelector('.judge-mode-label');
+        if (label) label.textContent = 'Dev Mode: OFF';
       }
     }
   },
@@ -118,6 +131,7 @@ const App = {
       await API.resetDatabase();
       this.showToast('Database reset to original 56 seed reports!', 'success');
       await this.updateSidebarCounts();
+      await this.updateHealthStatus();
       const container = document.getElementById('view-container');
       if (container && this.views[this.currentView]) {
         this.views[this.currentView].render(container);
@@ -137,6 +151,27 @@ const App = {
       if (reportsBadge) reportsBadge.textContent = analytics.total_reports;
     } catch (e) {
       // Ignore initial silent error
+    }
+  },
+
+  async updateHealthStatus() {
+    try {
+      this.healthData = await API.getHealth();
+      const modelTag = document.getElementById('sidebar-ai-model');
+      if (modelTag && this.healthData) {
+        if (this.healthData.lightweight_mode) {
+          modelTag.innerHTML = `TF-IDF &bull; Lightweight`;
+        } else {
+          const modelName = this.healthData.ai_model || 'all-MiniLM-L6-v2';
+          modelTag.innerHTML = `${modelName} &bull; 384d`;
+        }
+      }
+      return this.healthData;
+    } catch (e) {
+      console.warn('[CPI 360] Could not fetch health status:', e);
+      const modelTag = document.getElementById('sidebar-ai-model');
+      if (modelTag) modelTag.textContent = 'AI Engine Active';
+      return null;
     }
   },
 
