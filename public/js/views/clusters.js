@@ -22,6 +22,7 @@ const ClustersView = {
           </p>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn btn-secondary" onclick="App.toggleShortcutHelp()" title="Keyboard shortcuts (?)" style="gap: 6px;">⌨️ Shortcuts</button>
           <button class="btn btn-secondary" onclick="ClustersView.expandAll()">Expand All</button>
           <button class="btn btn-secondary" onclick="ClustersView.collapseAll()">Collapse All</button>
           <button class="btn btn-primary" onclick="ClustersView.exportCSV()"><span>📥</span> Export Clustered CSV</button>
@@ -30,15 +31,24 @@ const ClustersView = {
 
       <!-- Filter Controls Bar -->
       <div class="card" style="padding: 16px 20px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Filter &amp; Search</span>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span id="active-filter-count" style="display: none; font-size: 0.75rem; font-weight: 700; background: rgba(99,102,241,0.2); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.35); padding: 2px 9px; border-radius: 12px;"></span>
+            <button class="btn btn-secondary" style="padding: 5px 12px; font-size: 0.8rem;" onclick="ClustersView.clearFilters()">✕ Clear</button>
+          </div>
+        </div>
         <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
-          <div style="flex: 1; min-width: 220px;">
+          <div style="flex: 1; min-width: 220px; position: relative;">
             <input 
               type="text" 
               id="cluster-search" 
               class="form-input" 
-              placeholder="Search issues, keywords, locations..." 
+              placeholder="Search issues, keywords, locations… (Press / to focus)"
               oninput="ClustersView.applyFilters()"
+              style="padding-right: 40px;"
             />
+            <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 0.72rem; color: var(--text-muted); pointer-events: none; font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border-subtle);">/</span>
           </div>
 
           <div>
@@ -83,6 +93,10 @@ const ClustersView = {
       </div>
 
       <!-- Clusters Accordion List -->
+      <div id="clusters-list-header" style="display: none; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+        <span id="clusters-result-count" style="font-size: 0.85rem; color: var(--text-secondary);"></span>
+        <span style="font-size: 0.78rem; color: var(--text-muted);">Sorted by priority score ↓</span>
+      </div>
       <div id="clusters-list-container">
         <div style="text-align: center; padding: 40px; color: var(--text-muted);">
           Loading problem clusters...
@@ -121,6 +135,18 @@ const ClustersView = {
     const priority = document.getElementById('filter-priority')?.value || '';
     const recurringOnly = document.getElementById('filter-recurring')?.checked || false;
 
+    // Update active filter count pill
+    const activeCount = [search, dept, status, priority, recurringOnly].filter(Boolean).length;
+    const pill = document.getElementById('active-filter-count');
+    if (pill) {
+      if (activeCount > 0) {
+        pill.textContent = `${activeCount} active filter${activeCount > 1 ? 's' : ''}`;
+        pill.style.display = 'inline-block';
+      } else {
+        pill.style.display = 'none';
+      }
+    }
+
     let filtered = this.currentClusters.filter(c => {
       if (dept && c.department.toLowerCase() !== dept.toLowerCase()) return false;
       if (status && c.status.toLowerCase() !== status.toLowerCase()) return false;
@@ -136,12 +162,25 @@ const ClustersView = {
       return true;
     });
 
-    this.renderClusterCards(filtered);
+    this.renderClusterCards(filtered, this.currentClusters.length);
   },
 
-  renderClusterCards(clusters) {
+  renderClusterCards(clusters, totalCount) {
     const container = document.getElementById('clusters-list-container');
+    const header = document.getElementById('clusters-list-header');
+    const countEl = document.getElementById('clusters-result-count');
     if (!container) return;
+
+    // Update result count
+    const total = totalCount !== undefined ? totalCount : clusters.length;
+    if (header && countEl) {
+      header.style.display = 'flex';
+      if (clusters.length === total) {
+        countEl.textContent = `Showing all ${total} issue${total !== 1 ? 's' : ''}`;
+      } else {
+        countEl.innerHTML = `Showing <strong style="color:#fff">${clusters.length}</strong> of ${total} issues`;
+      }
+    }
 
     if (clusters.length === 0) {
       container.innerHTML = `
@@ -269,12 +308,27 @@ const ClustersView = {
 
   expandAll() {
     this.currentClusters.forEach(c => this.expandedClusterIds.add(c.cluster_id));
-    this.renderClusterCards(this.currentClusters);
+    this.applyFilters();
   },
 
   collapseAll() {
     this.expandedClusterIds.clear();
-    this.renderClusterCards(this.currentClusters);
+    this.applyFilters();
+  },
+
+  clearFilters() {
+    const searchEl = document.getElementById('cluster-search');
+    const deptEl = document.getElementById('filter-dept');
+    const statusEl = document.getElementById('filter-status');
+    const priorityEl = document.getElementById('filter-priority');
+    const recurringEl = document.getElementById('filter-recurring');
+    if (searchEl) searchEl.value = '';
+    if (deptEl) deptEl.value = '';
+    if (statusEl) statusEl.value = '';
+    if (priorityEl) priorityEl.value = '';
+    if (recurringEl) recurringEl.checked = false;
+    this.applyFilters();
+    window.App && window.App.showToast('Filters cleared', 'info');
   },
 
   async handleStatusChange(clusterId) {

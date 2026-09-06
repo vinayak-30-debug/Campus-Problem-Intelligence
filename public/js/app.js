@@ -1,5 +1,11 @@
 /**
  * CPI 360 - Main Application Controller
+ * Keyboard Shortcuts:
+ *   G + D  → Dashboard        G + S  → Submit Report
+ *   G + C  → Clusters         G + P  → Departments
+ *   G + B  → Benchmark        /      → Focus cluster search
+ *   E      → Expand all       X      → Collapse all
+ *   Esc    → Clear filters    ?      → Toggle shortcut help
  */
 
 const App = {
@@ -53,6 +59,142 @@ const App = {
         this.navigateTo(h);
       }
     });
+    // Global keyboard shortcuts
+    this._gPressed = false;
+    this._gTimer = null;
+    document.addEventListener('keydown', (e) => this._handleKeydown(e));
+  },
+
+  _handleKeydown(e) {
+    // Skip if user is typing in an input/textarea
+    const tag = e.target.tagName;
+    const inInput = (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT');
+
+    // ? — toggle keyboard help (always, even in inputs)
+    if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      this.toggleShortcutHelp();
+      return;
+    }
+
+    // Escape — clear cluster filters or close modals
+    if (e.key === 'Escape') {
+      const helpModal = document.getElementById('shortcut-help-modal');
+      if (helpModal && helpModal.classList.contains('open')) {
+        helpModal.classList.remove('open');
+        return;
+      }
+      if (this.currentView === 'clusters' && typeof ClustersView !== 'undefined') {
+        ClustersView.clearFilters();
+      }
+      return;
+    }
+
+    if (inInput) return;
+
+    // / — focus cluster search
+    if (e.key === '/') {
+      e.preventDefault();
+      if (this.currentView !== 'clusters') {
+        this.navigateTo('clusters').then(() => {
+          setTimeout(() => {
+            const searchEl = document.getElementById('cluster-search');
+            if (searchEl) { searchEl.focus(); searchEl.select(); }
+          }, 350);
+        });
+      } else {
+        const searchEl = document.getElementById('cluster-search');
+        if (searchEl) { searchEl.focus(); searchEl.select(); }
+      }
+      return;
+    }
+
+    // E — expand all clusters
+    if (e.key === 'e' || e.key === 'E') {
+      if (this.currentView === 'clusters' && typeof ClustersView !== 'undefined') {
+        ClustersView.expandAll();
+        this.showToast('All clusters expanded', 'info');
+      }
+      return;
+    }
+
+    // X — collapse all clusters
+    if (e.key === 'x' || e.key === 'X') {
+      if (this.currentView === 'clusters' && typeof ClustersView !== 'undefined') {
+        ClustersView.collapseAll();
+        this.showToast('All clusters collapsed', 'info');
+      }
+      return;
+    }
+
+    // G + letter — navigation chords
+    if (e.key === 'g' || e.key === 'G') {
+      this._gPressed = true;
+      if (this._gTimer) clearTimeout(this._gTimer);
+      this._gTimer = setTimeout(() => { this._gPressed = false; }, 1200);
+      return;
+    }
+
+    if (this._gPressed) {
+      this._gPressed = false;
+      if (this._gTimer) clearTimeout(this._gTimer);
+      const navMap = { d: 'dashboard', s: 'submit', c: 'clusters', p: 'department', b: 'benchmark' };
+      const dest = navMap[e.key.toLowerCase()];
+      if (dest) {
+        e.preventDefault();
+        this.navigateTo(dest);
+        const labels = { dashboard: 'Dashboard', submit: 'Submit Report', clusters: 'Clusters', department: 'Departments', benchmark: 'Benchmark' };
+        this.showToast(`Navigated to ${labels[dest]}`, 'info');
+      }
+    }
+  },
+
+  toggleShortcutHelp() {
+    let modal = document.getElementById('shortcut-help-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'shortcut-help-modal';
+      modal.className = 'modal-backdrop';
+      modal.innerHTML = `
+        <div class="modal-dialog" style="max-width:520px">
+          <div class="modal-header">
+            <div class="modal-title-box">
+              <span class="ai-pulse-icon">⌨️</span>
+              <h3>Keyboard Shortcuts</h3>
+            </div>
+            <button class="btn-close" onclick="document.getElementById('shortcut-help-modal').classList.remove('open')">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="shortcut-grid">
+              <div class="shortcut-section">
+                <div class="shortcut-section-title">Navigation</div>
+                <div class="shortcut-row"><kbd>G</kbd><kbd>D</kbd><span>Dashboard</span></div>
+                <div class="shortcut-row"><kbd>G</kbd><kbd>S</kbd><span>Submit Report</span></div>
+                <div class="shortcut-row"><kbd>G</kbd><kbd>C</kbd><span>Clusters Matrix</span></div>
+                <div class="shortcut-row"><kbd>G</kbd><kbd>P</kbd><span>Departments</span></div>
+                <div class="shortcut-row"><kbd>G</kbd><kbd>B</kbd><span>Benchmark</span></div>
+              </div>
+              <div class="shortcut-section">
+                <div class="shortcut-section-title">Clusters View</div>
+                <div class="shortcut-row"><kbd>/</kbd><span>Focus search bar</span></div>
+                <div class="shortcut-row"><kbd>E</kbd><span>Expand all clusters</span></div>
+                <div class="shortcut-row"><kbd>X</kbd><span>Collapse all clusters</span></div>
+                <div class="shortcut-row"><kbd>Esc</kbd><span>Clear all filters</span></div>
+              </div>
+              <div class="shortcut-section">
+                <div class="shortcut-section-title">Global</div>
+                <div class="shortcut-row"><kbd>?</kbd><span>Toggle this panel</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      modal.addEventListener('click', (ev) => {
+        if (ev.target === modal) modal.classList.remove('open');
+      });
+      document.body.appendChild(modal);
+    }
+    modal.classList.toggle('open');
   },
 
   async navigateTo(viewName, params = {}) {
