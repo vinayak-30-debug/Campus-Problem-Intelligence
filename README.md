@@ -114,7 +114,7 @@ Campus Hack/
 
 ## 🌐 Live Demo
 
-- **Live Application URL:** `https://campus-problem-intelligence.onrender.com` *(Placeholder: replace with your actual Render service URL)*
+- **Live Application URL:** `https://campus-problem-intelligence.onrender.com` 
 - **Instance Cold-Start Note:** Hosted on Render's free tier; if the service has spun down due to inactivity, please allow ~30–60 seconds for the instance to wake up on the first request.
 
 ---
