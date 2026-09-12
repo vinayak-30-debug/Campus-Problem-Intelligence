@@ -42,7 +42,7 @@ const App = {
 
     // Check URL hash for initial route
     const hash = window.location.hash.replace('#', '');
-    if (this.views[hash]) {
+    if (this.views[hash] && !(hash === 'benchmark' && !this.isDevMode)) {
       this.navigateTo(hash);
     } else {
       this.navigateTo('dashboard');
@@ -56,6 +56,11 @@ const App = {
     window.addEventListener('hashchange', () => {
       const h = window.location.hash.replace('#', '');
       if (this.views[h] && h !== this.currentView) {
+        if (h === 'benchmark' && !this.isDevMode) {
+          this.showToast('Accuracy Benchmark is only available in Dev Mode.', 'info');
+          window.location.hash = this.currentView;
+          return;
+        }
         this.navigateTo(h);
       }
     });
@@ -141,6 +146,11 @@ const App = {
       const navMap = { d: 'dashboard', s: 'submit', c: 'clusters', p: 'department', b: 'benchmark' };
       const dest = navMap[e.key.toLowerCase()];
       if (dest) {
+        // Block G+B shortcut when Dev Mode is off
+        if (dest === 'benchmark' && !this.isDevMode) {
+          this.showToast('Accuracy Benchmark is only available in Dev Mode.', 'info');
+          return;
+        }
         e.preventDefault();
         this.navigateTo(dest);
         const labels = { dashboard: 'Dashboard', submit: 'Submit Report', clusters: 'Clusters', department: 'Departments', benchmark: 'Benchmark' };
@@ -261,6 +271,17 @@ const App = {
         const label = toggleBtn.querySelector('.judge-mode-label');
         if (label) label.textContent = 'Dev Mode: OFF';
       }
+    }
+
+    // Show/hide the Accuracy Benchmark nav tab based on Dev Mode
+    const benchmarkNav = document.getElementById('nav-benchmark');
+    if (benchmarkNav) {
+      benchmarkNav.style.display = this.isDevMode ? '' : 'none';
+    }
+
+    // If Dev Mode was just turned off and user is on benchmark, redirect to dashboard
+    if (!this.isDevMode && this.currentView === 'benchmark') {
+      this.navigateTo('dashboard');
     }
   },
 
