@@ -3,7 +3,8 @@
  * Keyboard Shortcuts:
  *   G + D  → Dashboard        G + S  → Submit Report
  *   G + C  → Clusters         G + P  → Departments
- *   G + B  → Benchmark        /      → Focus cluster search
+ *   G + R  → Latest Reports   G + B  → Benchmark
+ *   /      → Focus cluster search
  *   E      → Expand all       X      → Collapse all
  *   Esc    → Clear filters    ?      → Toggle shortcut help
  */
@@ -23,6 +24,7 @@ const App = {
   views: {
     dashboard: DashboardView,
     submit: SubmitView,
+    reports: ReportsView,
     clusters: ClustersView,
     department: DepartmentView,
     benchmark: BenchmarkView
@@ -143,7 +145,7 @@ const App = {
     if (this._gPressed) {
       this._gPressed = false;
       if (this._gTimer) clearTimeout(this._gTimer);
-      const navMap = { d: 'dashboard', s: 'submit', c: 'clusters', p: 'department', b: 'benchmark' };
+      const navMap = { d: 'dashboard', s: 'submit', r: 'reports', c: 'clusters', p: 'department', b: 'benchmark' };
       const dest = navMap[e.key.toLowerCase()];
       if (dest) {
         // Block G+B shortcut when Dev Mode is off
@@ -153,7 +155,7 @@ const App = {
         }
         e.preventDefault();
         this.navigateTo(dest);
-        const labels = { dashboard: 'Dashboard', submit: 'Submit Report', clusters: 'Clusters', department: 'Departments', benchmark: 'Benchmark' };
+        const labels = { dashboard: 'Dashboard', submit: 'Submit Report', reports: 'Latest Reports', clusters: 'Clusters', department: 'Departments', benchmark: 'Benchmark' };
         this.showToast(`Navigated to ${labels[dest]}`, 'info');
       }
     }
@@ -180,6 +182,7 @@ const App = {
                 <div class="shortcut-section-title">Navigation</div>
                 <div class="shortcut-row"><kbd>G</kbd><kbd>D</kbd><span>Dashboard</span></div>
                 <div class="shortcut-row"><kbd>G</kbd><kbd>S</kbd><span>Submit Report</span></div>
+                <div class="shortcut-row"><kbd>G</kbd><kbd>R</kbd><span>Latest Reports</span></div>
                 <div class="shortcut-row"><kbd>G</kbd><kbd>C</kbd><span>Clusters Matrix</span></div>
                 <div class="shortcut-row"><kbd>G</kbd><kbd>P</kbd><span>Departments</span></div>
                 <div class="shortcut-row"><kbd>G</kbd><kbd>B</kbd><span>Benchmark</span></div>
@@ -225,6 +228,7 @@ const App = {
     const titles = {
       dashboard: 'Executive Problem Intelligence Dashboard',
       submit: 'Report a Campus Problem',
+      reports: 'Latest Reports Feed',
       clusters: 'Recurring Issues Matrix & Deduplication',
       department: 'Department Workflows & SLA Resolution',
       benchmark: 'AI Clustering Accuracy & Ground Truth Validation'

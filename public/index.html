@@ -31,6 +31,12 @@
           <span>Report a Problem</span>
         </a>
 
+        <a class="nav-link" data-view="reports" onclick="App.navigateTo('reports')">
+          <span class="nav-icon">📨</span>
+          <span>Latest Reports</span>
+          <span class="nav-badge" id="sidebar-reports-badge">--</span>
+        </a>
+
         <a class="nav-link" data-view="clusters" onclick="App.navigateTo('clusters')">
           <span class="nav-icon">🔍</span>
           <span>Recurring Issues</span>
@@ -107,6 +113,7 @@
   <script src="/js/views/clusters.js"></script>
   <script src="/js/views/department.js"></script>
   <script src="/js/views/benchmark.js"></script>
+  <script src="/js/views/reports.js"></script>
   <script src="/js/app.js"></script>
 </body>
 </html>
