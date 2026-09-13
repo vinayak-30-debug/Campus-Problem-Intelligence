@@ -12,6 +12,7 @@
 const App = {
   currentView: 'dashboard',
   isDevMode: false,
+  isLightMode: false,
   healthData: null,
 
   get isJudgeMode() {
@@ -41,6 +42,15 @@ const App = {
       this.isDevMode = false;
     }
     this.updateJudgeModeUI();
+
+    // Load saved theme (defaults to system preference)
+    const savedTheme = localStorage.getItem('cpi_theme');
+    if (savedTheme) {
+      this.isLightMode = savedTheme === 'light';
+    } else {
+      this.isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
+    }
+    this.updateThemeUI();
 
     // Check URL hash for initial route
     const hash = window.location.hash.replace('#', '');
@@ -243,6 +253,26 @@ const App = {
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
+  toggleTheme() {
+    this.isLightMode = !this.isLightMode;
+    localStorage.setItem('cpi_theme', this.isLightMode ? 'light' : 'dark');
+    this.updateThemeUI();
+    this.showToast(this.isLightMode ? '☀️ Light mode enabled' : '🌙 Dark mode enabled', 'info');
+  },
+
+  updateThemeUI() {
+    const root = document.documentElement;
+    if (this.isLightMode) {
+      root.setAttribute('data-theme', 'light');
+    } else {
+      root.removeAttribute('data-theme');
+    }
+    const icon  = document.getElementById('theme-toggle-icon');
+    const label = document.getElementById('theme-toggle-label');
+    if (icon)  icon.textContent  = this.isLightMode ? '☀️' : '🌙';
+    if (label) label.textContent = this.isLightMode ? 'Dark Mode' : 'Light Mode';
   },
 
   toggleJudgeMode() {

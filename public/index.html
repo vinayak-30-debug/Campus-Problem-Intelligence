@@ -74,6 +74,12 @@
         </div>
 
         <div class="topbar-right">
+          <!-- Theme Toggle -->
+          <button class="theme-toggle-btn" id="topbar-theme-toggle" onclick="App.toggleTheme()" title="Switch between Light and Dark mode">
+            <span class="theme-toggle-icon" id="theme-toggle-icon">🌙</span>
+            <span id="theme-toggle-label">Light Mode</span>
+          </button>
+
           <!-- Developer / Judge Mode Toggle -->
           <div class="judge-mode-toggle" id="topbar-judge-toggle" onclick="App.toggleJudgeMode()" title="Toggle Developer / Judge Mode">
             <div class="toggle-switch"></div>
